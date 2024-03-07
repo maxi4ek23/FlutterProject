@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_test_project/screens/favourite_page.dart';
+import 'package:flutter_test_project/screens/home_page.dart';
+import 'package:flutter_test_project/screens/login_page.dart';
+import 'package:flutter_test_project/screens/profile_page.dart';
+import 'package:flutter_test_project/screens/search_page.dart';
+import 'package:flutter_test_project/screens/signup_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,101 +18,33 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo App',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
-      ),
-      home: const MyHomePage(title: 'Flutter Demo App Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({required this.title, super.key});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int letterCounter = 0;
-  String text = '';
-  String magic = '';
-  final inputText = TextEditingController();
-
-  void _incrementCounter() {
-    setState(() {
-      if (text != 'Avada Kedavra') {
-        letterCounter = text.replaceAll(' ', '').length;
-        magic = 'Wingardium Leviosa';
-      } else {
-        letterCounter = 0;
-        magic = 'You are going to die. Avada Kedavra';
-      }
-      if (text == '') {
-        magic = '';
-      }
-    });
-  }
-
-  void _resetMagic() {
-    setState(() {
-      text = '';
-      magic = '';
-      inputText.clear();
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'The number of symbols that u pressed:',
-              style: TextStyle(fontSize: 20),
-            ),
-            Text(
-              '$letterCounter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: TextField(
-                controller: inputText,
-                decoration: const InputDecoration(
-                  labelText: 'Enter Phrase',
-                  border: OutlineInputBorder(),
-                ),
-                onChanged: (value) {
-                  text = value;
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: Text(
-                magic,
-                style: const TextStyle(fontSize: 20),
-              ),
-            ),
-            ElevatedButton(
-              onPressed: _resetMagic,
-              child: const Text('Reset'),
-            ),
-          ],
+        scaffoldBackgroundColor: const Color.fromRGBO(235, 225, 247, 1),
+        appBarTheme: const AppBarTheme(
+          color: Color.fromRGBO(63, 0, 92, 1),
+          iconTheme: IconThemeData(
+            color: Colors.white,
+          ),
+        ),
+        //colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromRGBO
+        //(235, 225, 247, 1),),
+        //primarySwatch: Colors.purple,
+        //primaryColor: const Color.fromRGBO(63, 0, 92, 1),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.purple,
+          secondary: const Color.fromRGBO(235, 225, 247, 1),
+          primary: const Color.fromRGBO(63, 0, 92, 1),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        child: const Text('Count'),
-      ),
+      //home: const MyHomePage(title: 'Flutter Demo App Home Page'),
+      routes: {
+        '/': (context) => const MyHomePage(),
+        '/search': (context) => const MySearchPage(),
+        '/favourite': (context) => const MyFavouritePage(),
+        '/profile': (context) => const MyProfilePage(),
+        '/login': (context) => const MyLoginPage(),
+        '/signup': (context) => const MySignUpPage(),
+      },
+      initialRoute: '/',
     );
   }
 }
