@@ -30,8 +30,9 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int letterCounter = 0;
-  late String text;
-  String magic = 'Wingardium Leviosa';
+  String text = '';
+  String magic = '';
+  final inputText = TextEditingController();
 
   void _incrementCounter() {
     setState(() {
@@ -42,6 +43,17 @@ class _MyHomePageState extends State<MyHomePage> {
         letterCounter = 0;
         magic = 'You are going to die. Avada Kedavra';
       }
+      if (text == '') {
+        magic = '';
+      }
+    });
+  }
+
+  void _resetMagic() {
+    setState(() {
+      text = '';
+      magic = '';
+      inputText.clear();
     });
   }
 
@@ -67,13 +79,15 @@ class _MyHomePageState extends State<MyHomePage> {
             Padding(
               padding: const EdgeInsets.all(20),
               child: TextField(
-                  decoration: const InputDecoration(
-                    labelText: 'Enter Phrase',
-                    border: OutlineInputBorder(),
-                  ),
-                  onChanged: (value) {
-                    text = value;
-                  },),
+                controller: inputText,
+                decoration: const InputDecoration(
+                  labelText: 'Enter Phrase',
+                  border: OutlineInputBorder(),
+                ),
+                onChanged: (value) {
+                  text = value;
+                },
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(20),
@@ -81,6 +95,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 magic,
                 style: const TextStyle(fontSize: 20),
               ),
+            ),
+            ElevatedButton(
+              onPressed: _resetMagic,
+              child: const Text('Reset'),
             ),
           ],
         ),
