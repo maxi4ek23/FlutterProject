@@ -26,7 +26,6 @@ class MovieCard extends StatelessWidget {
           ],
         ),
         child: Column(
-          //mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Image.asset(
               movie.urlImg,
@@ -34,7 +33,7 @@ class MovieCard extends StatelessWidget {
               height: 220,
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 6),
+              padding: const EdgeInsets.fromLTRB(0, 6, 0, 0),
               child: Text(
                 movie.movieName,
                 style: const TextStyle(

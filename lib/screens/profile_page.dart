@@ -14,14 +14,14 @@ class MyProfilePage extends StatefulWidget {
 class _MyProfilePageState extends State<MyProfilePage> {
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
+    final size = MediaQuery.sizeOf(context);
     return Scaffold(
       appBar: const MyAppBar(
         isAbleGoBack: false,
         appTitle: 'MovieLand',
       ),
       body: Container(
-        padding: const EdgeInsets.only(top: 15),
+        padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
         height: size.height,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

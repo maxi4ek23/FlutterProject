@@ -14,7 +14,7 @@ class MySignUpPage extends StatefulWidget {
 class _MySignUpPageState extends State<MySignUpPage> {
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
+    final size = MediaQuery.sizeOf(context);
     return SafeArea(
       child: Scaffold(
         appBar: const MyAppBar(
@@ -23,7 +23,7 @@ class _MySignUpPageState extends State<MySignUpPage> {
         ),
         body: Container(
           width: double.infinity,
-          padding: const EdgeInsets.only(top: 15),
+          padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
           height: size.height,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

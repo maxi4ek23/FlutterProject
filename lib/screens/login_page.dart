@@ -3,17 +3,12 @@ import 'package:flutter_test_project/elements/appbar.dart';
 import 'package:flutter_test_project/elements/custom_button.dart';
 import 'package:flutter_test_project/elements/custom_form.dart';
 
-class MyLoginPage extends StatefulWidget {
+class MyLoginPage extends StatelessWidget {
   const MyLoginPage({super.key});
 
   @override
-  State<MyLoginPage> createState() => _MyLoginPageState();
-}
-
-class _MyLoginPageState extends State<MyLoginPage> {
-  @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
+    final size = MediaQuery.sizeOf(context);
     return Scaffold(
       appBar: const MyAppBar(
         isAbleGoBack: true,
@@ -21,13 +16,12 @@ class _MyLoginPageState extends State<MyLoginPage> {
       ),
       body: Container(
         width: double.infinity,
-        padding: const EdgeInsets.only(top: 15),
+        padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
         height: size.height,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             const Column(
-              //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text(
                   'Login',

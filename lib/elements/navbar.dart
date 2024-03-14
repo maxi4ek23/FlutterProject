@@ -25,31 +25,25 @@ class _NavBarState extends State<NavBar> {
             icon: const Icon(Icons.home),
             isSelected: isHome,
             highlightColor: Theme.of(context).colorScheme.primary,
-            onPressed: () => {
-              Navigator.pushNamed(context, '/'),
-            },
+            onPressed: () => Navigator.pushNamed(context, '/'),
           ),
           IconButton(
             icon: const Icon(Icons.search),
             isSelected: isSearch,
             highlightColor: Theme.of(context).colorScheme.primary,
-            onPressed: () => {
-              Navigator.pushNamed(context, '/search'),
-            },
+            onPressed: () => Navigator.pushNamed(context, '/search'),
           ),
           IconButton(
             icon: const Icon(Icons.favorite),
             isSelected: isFavourite,
             highlightColor: Theme.of(context).colorScheme.primary,
-            onPressed: () => {
-              Navigator.pushNamed(context, '/favourite'),
-            },
+            onPressed: () => Navigator.pushNamed(context, '/favourite'),
           ),
           IconButton(
             icon: const Icon(Icons.person),
             isSelected: isProfile,
             highlightColor: Theme.of(context).colorScheme.primary,
-            onPressed: () => {Navigator.pushNamed(context, '/profile')},
+            onPressed: () => Navigator.pushNamed(context, '/profile'),
           ),
         ],
       ),

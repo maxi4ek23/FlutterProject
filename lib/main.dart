@@ -25,17 +25,12 @@ class MyApp extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-        //colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromRGBO
-        //(235, 225, 247, 1),),
-        //primarySwatch: Colors.purple,
-        //primaryColor: const Color.fromRGBO(63, 0, 92, 1),
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.purple,
           secondary: const Color.fromRGBO(235, 225, 247, 1),
           primary: const Color.fromRGBO(63, 0, 92, 1),
         ),
       ),
-      //home: const MyHomePage(title: 'Flutter Demo App Home Page'),
       routes: {
         '/': (context) => const MyHomePage(),
         '/search': (context) => const MySearchPage(),
