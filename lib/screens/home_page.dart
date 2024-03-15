@@ -34,7 +34,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: Row(
                       children: [
                         Text(
-                          'Now Showing',
+                          'Now showing',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
@@ -46,14 +46,15 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ),
                   Container(
-                    height: 260,
+                    height: 270,
                     child: ListView.separated(
                       scrollDirection: Axis.horizontal,
                       itemCount: movies.length,
                       separatorBuilder: (context, _) =>
                           const SizedBox(width: 8),
-                      itemBuilder: (context, index) =>
-                          MovieCard(movie: movies[index]),
+                      itemBuilder: (context, index) => MovieCard(
+                        movie: movies[index],
+                      ),
                     ),
                   ),
                 ],

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_test_project/screens/auth_profile_page.dart';
 import 'package:flutter_test_project/screens/favourite_page.dart';
 import 'package:flutter_test_project/screens/home_page.dart';
 import 'package:flutter_test_project/screens/login_page.dart';
-import 'package:flutter_test_project/screens/profile_page.dart';
 import 'package:flutter_test_project/screens/search_page.dart';
 import 'package:flutter_test_project/screens/signup_page.dart';
 
@@ -20,7 +20,6 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: const Color.fromRGBO(235, 225, 247, 1),
         appBarTheme: const AppBarTheme(
-          color: Color.fromRGBO(63, 0, 92, 1),
           iconTheme: IconThemeData(
             color: Colors.white,
           ),
@@ -35,7 +34,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => const MyHomePage(),
         '/search': (context) => const MySearchPage(),
         '/favourite': (context) => const MyFavouritePage(),
-        '/profile': (context) => const MyProfilePage(),
+        '/profile': (context) => const AuthProfilePage(),
         '/login': (context) => const MyLoginPage(),
         '/signup': (context) => const MySignUpPage(),
       },

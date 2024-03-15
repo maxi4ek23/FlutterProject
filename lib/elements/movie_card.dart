@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_test_project/instances/movie.dart';
 
-class MovieCard extends StatelessWidget {
+class MovieCard extends StatefulWidget {
   final Movie movie;
 
   const MovieCard({
@@ -10,6 +10,11 @@ class MovieCard extends StatelessWidget {
     super.key,
   });
 
+  @override
+  State<MovieCard> createState() => _MovieCardState();
+}
+
+class _MovieCardState extends State<MovieCard> {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
@@ -28,19 +33,37 @@ class MovieCard extends StatelessWidget {
         child: Column(
           children: [
             Image.asset(
-              movie.urlImg,
+              widget.movie.urlImg,
               width: 180,
               height: 220,
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 6, 0, 0),
-              child: Text(
-                movie.movieName,
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 2, 0, 0),
+                  child: Text(
+                    widget.movie.movieName,
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
-              ),
+                Container(
+                  width: 20,
+                  height: 20,
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                    color: Colors.red,
+                    width: 2,
+                  ),),
+                  child: MaterialButton(
+                      onPressed: () {},
+                      child: const Icon(
+                        Icons.save,
+                      ),),
+                ),
+              ],
             ),
           ],
         ),
