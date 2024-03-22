@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class MyAppBar extends StatefulWidget implements PreferredSizeWidget {
+class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool isAbleGoBack;
   final String appTitle;
 
@@ -11,21 +11,13 @@ class MyAppBar extends StatefulWidget implements PreferredSizeWidget {
   });
 
   @override
-  State<MyAppBar> createState() => _MyAppBarState();
-
-  @override
-  Size get preferredSize => const Size.fromHeight(55);
-}
-
-class _MyAppBarState extends State<MyAppBar> {
-  @override
   Widget build(BuildContext context) {
     return AppBar(
-      automaticallyImplyLeading: widget.isAbleGoBack,
+      automaticallyImplyLeading: isAbleGoBack,
       centerTitle: true,
       backgroundColor: Theme.of(context).colorScheme.primary,
       title: Text(
-        widget.appTitle,
+        appTitle,
         style: TextStyle(
           color: Theme.of(context).colorScheme.secondary,
           fontWeight: FontWeight.bold,
@@ -33,4 +25,7 @@ class _MyAppBarState extends State<MyAppBar> {
       ),
     );
   }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(55);
 }
