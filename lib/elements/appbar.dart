@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool isAbleGoBack;
   final String appTitle;
+  final List<Widget>? actions;
 
   const MyAppBar({
     required this.isAbleGoBack,
     required this.appTitle,
+    this.actions,
     super.key,
   });
 
@@ -15,6 +17,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       automaticallyImplyLeading: isAbleGoBack,
       centerTitle: true,
+      actions: actions,
       backgroundColor: Theme.of(context).colorScheme.primary,
       title: Text(
         appTitle,

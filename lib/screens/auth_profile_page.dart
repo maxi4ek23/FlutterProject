@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test_project/instances/user.dart';
 import 'package:flutter_test_project/screens/profile_page.dart';
 import 'package:flutter_test_project/screens/user_profile_page.dart';
-import 'package:hive_flutter/adapters.dart';
+import 'package:flutter_test_project/service/authorization/authorization_service.dart';
 
 class AuthProfilePage extends StatefulWidget {
   const AuthProfilePage({super.key});
@@ -12,29 +12,24 @@ class AuthProfilePage extends StatefulWidget {
 }
 
 class _AuthProfilePageState extends State<AuthProfilePage> {
+  final AuthorizationService authorizationService = AuthorizationService();
+  User? currUser;
   User? user;
 
   @override
   void initState() {
     super.initState();
-    findCurrent();
+    getCurrentUser();
   }
 
-  Future<void> findCurrent() async {
-    await Hive.initFlutter();
-    final stringBox = await Hive.openBox<String>('currentUser');
-    final currentUserEmail = stringBox.get('currentEmail');
-    if (!Hive.isAdapterRegistered(0)) {
-      Hive.registerAdapter(UserAdapter());
-    }
+  Future<void> getCurrentUser() async {
+    currUser = await authorizationService.findCurrentUser();
+    showCurrentUser();
+  }
 
-    await Hive.initFlutter();
-
-    final userBox = await Hive.openBox<User>('users');
-    user = userBox.get(currentUserEmail);
-
+  void showCurrentUser() {
     setState(() {
-      user = userBox.get(currentUserEmail);
+      user = currUser;
     });
   }
 
