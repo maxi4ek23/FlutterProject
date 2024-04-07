@@ -1,8 +1,11 @@
+import 'dart:async';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test_project/elements/appbar.dart';
 import 'package:flutter_test_project/elements/custom_button.dart';
 import 'package:flutter_test_project/elements/custom_form.dart';
-
+import 'package:flutter_test_project/elements/custom_title.dart';
 import 'package:flutter_test_project/service/authorization/authorization_service.dart';
 
 class MyLoginPage extends StatefulWidget {
@@ -21,23 +24,56 @@ class _MyLoginPageState extends State<MyLoginPage> {
     final email = emailController.text;
     final password = passwordController.text;
     final loginResult = await authorizationService.login(email, password);
-
-    if (!loginResult) {
-      showDialog<String>(
+    final ConnectivityResult result = await Connectivity().checkConnectivity();
+    if (result == ConnectivityResult.none) {
+      showDialog(
         context: context,
-        builder: (BuildContext context) => AlertDialog(
-          title: const Text('non-existent user'),
-          content: const Text('Invalid email or password. Please try again.'),
+        builder: (context) => AlertDialog(
+          title: const Text('No network connection'),
+          content: const Text(
+              'Please check your internet connection and try again.',),
           actions: [
             TextButton(
-              onPressed: () => Navigator.pop(context, 'Hi'),
-              child: const Text('Ok'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('OK'),
             ),
           ],
         ),
       );
     } else {
-      Navigator.pushReplacementNamed(context, '/');
+      if (!loginResult) {
+        showDialog<String>(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: const Text('non-existent user'),
+            content: const Text('Invalid email or password. Please try again.'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, 'Hi'),
+                child: const Text('Ok'),
+              ),
+            ],
+          ),
+        );
+      } else {
+        Navigator.pushReplacementNamed(context, '/');
+        showDialog<String>(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: const Text('Authorization is successful'),
+            content:
+                const Text('Welcome to MovieLand! You are finally logined'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, 'Hi'),
+                child: const Text('Ok'),
+              ),
+            ],
+          ),
+        );
+      }
     }
   }
 
@@ -57,25 +93,9 @@ class _MyLoginPageState extends State<MyLoginPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            const Column(
-              children: [
-                Text(
-                  'Login',
-                  style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 12),
-                Text(
-                  'Login to your account',
-                  style: TextStyle(
-                    color: Colors.black54,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
+            const MyTitleAndSubtitle(
+              mainTitle: 'Login',
+              subTitle: 'Login to your account',
             ),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 20),

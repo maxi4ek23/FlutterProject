@@ -6,6 +6,10 @@ abstract class IAuthorizationService {
   Future<String?> register(String username, String email, String password);
 
   Future<bool> login(String email, String password);
+
+  Future<User?> findCurrentUser();
+
+  Future<void> logout();
 }
 
 class AuthorizationService implements IAuthorizationService {
@@ -13,7 +17,10 @@ class AuthorizationService implements IAuthorizationService {
 
   @override
   Future<String?> register(
-      String username, String email, String password,) async {
+    String username,
+    String email,
+    String password,
+  ) async {
     if (!Hive.isAdapterRegistered(0)) {
       Hive.registerAdapter(UserAdapter());
     }
@@ -49,5 +56,30 @@ class AuthorizationService implements IAuthorizationService {
       }
     }
     return false;
+  }
+
+  @override
+  Future<User?> findCurrentUser() async {
+    await Hive.initFlutter();
+    final stringBox = await Hive.openBox<String>('currentUser');
+    final currentUserEmail = stringBox.get('currentEmail');
+    if (currentUserEmail == null) {
+      return null;
+    }
+    if (!Hive.isAdapterRegistered(0)) {
+      Hive.registerAdapter(UserAdapter());
+    }
+
+    await Hive.initFlutter();
+
+    final userBox = await Hive.openBox<User>('users');
+    return userBox.get(currentUserEmail);
+  }
+
+  @override
+  Future<void> logout() async {
+    await Hive.initFlutter();
+    final stringBox = await Hive.openBox<String>('currentUser');
+    await stringBox.delete('currentEmail');
   }
 }

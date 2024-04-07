@@ -1,9 +1,13 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test_project/data.dart';
 import 'package:flutter_test_project/elements/appbar.dart';
 import 'package:flutter_test_project/elements/movie_card.dart';
 import 'package:flutter_test_project/elements/navbar.dart';
+
+import 'package:flutter_test_project/service/authorization/authorization_service.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -13,6 +17,50 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final AuthorizationService authorizationService = AuthorizationService();
+  late StreamSubscription subscription;
+
+  @override
+  void initState() {
+    super.initState();
+    checkIfLogin();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    subscription.cancel();
+  }
+
+  Future<void> checkIfLogin() async {
+    final currUser = await authorizationService.findCurrentUser();
+    if (currUser != null) {
+      subscription = Connectivity()
+          .onConnectivityChanged
+          .listen((ConnectivityResult result) {
+        final hasInternet = result != ConnectivityResult.none;
+        if (!hasInternet) {
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: const Text('No network connection'),
+              content: const Text(
+                  'Please check your internet connection and try again.',),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('OK'),
+                ),
+              ],
+            ),
+          );
+        }
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);

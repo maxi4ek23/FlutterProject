@@ -53,15 +53,17 @@ class _MovieCardState extends State<MovieCard> {
                   width: 20,
                   height: 20,
                   decoration: BoxDecoration(
-                      border: Border.all(
-                    color: Colors.red,
-                    width: 2,
-                  ),),
+                    border: Border.all(
+                      color: Colors.red,
+                      width: 2,
+                    ),
+                  ),
                   child: MaterialButton(
-                      onPressed: () {},
-                      child: const Icon(
-                        Icons.save,
-                      ),),
+                    onPressed: () {},
+                    child: const Icon(
+                      Icons.save,
+                    ),
+                  ),
                 ),
               ],
             ),
