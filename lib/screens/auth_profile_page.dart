@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test_project/instances/user.dart';
 import 'package:flutter_test_project/screens/profile_page.dart';
 import 'package:flutter_test_project/screens/user_profile_page.dart';
+import 'package:flutter_test_project/service/api/api_service.dart';
 import 'package:flutter_test_project/service/authorization/authorization_service.dart';
 
 class AuthProfilePage extends StatefulWidget {
@@ -13,6 +14,7 @@ class AuthProfilePage extends StatefulWidget {
 
 class _AuthProfilePageState extends State<AuthProfilePage> {
   final AuthorizationService authorizationService = AuthorizationService();
+  final IApiService apiService = ApiService();
   User? currUser;
   User? user;
 
