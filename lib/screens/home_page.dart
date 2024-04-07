@@ -2,12 +2,14 @@ import 'dart:async';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_test_project/data.dart';
 import 'package:flutter_test_project/elements/appbar.dart';
 import 'package:flutter_test_project/elements/movie_card.dart';
 import 'package:flutter_test_project/elements/navbar.dart';
-
+import 'package:flutter_test_project/instances/movie.dart';
 import 'package:flutter_test_project/service/authorization/authorization_service.dart';
+import 'package:flutter_test_project/service/movie/movie_service.dart';
+import 'package:flutter_test_project/service/movie/movie_storage_service.dart';
+
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -18,11 +20,15 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final AuthorizationService authorizationService = AuthorizationService();
+  final IMovieService movieService = MovieService();
+  final IMovieStorageService movieStorageService = MovieStorageService();
   late StreamSubscription subscription;
+  late Future<List<Movie>> movieList;
 
   @override
   void initState() {
     super.initState();
+    movieList = movieService.loadMovieList();
     checkIfLogin();
   }
 
@@ -31,6 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
     super.dispose();
     subscription.cancel();
   }
+
 
   Future<void> checkIfLogin() async {
     final currUser = await authorizationService.findCurrentUser();
@@ -45,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
             builder: (context) => AlertDialog(
               title: const Text('No network connection'),
               content: const Text(
-                  'Please check your internet connection and try again.',),
+                'Please check your internet connection and try again.',),
               actions: [
                 TextButton(
                   onPressed: () {
@@ -95,14 +102,24 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   Container(
                     height: 270,
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: movies.length,
-                      separatorBuilder: (context, _) =>
-                          const SizedBox(width: 8),
-                      itemBuilder: (context, index) => MovieCard(
-                        movie: movies[index],
-                      ),
+                    child: FutureBuilder(
+                      future: movieList,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          final movies = snapshot.data!;
+                          return ListView.separated(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: movies.length,
+                            separatorBuilder: (context, _) =>
+                            const SizedBox(width: 8),
+                            itemBuilder: (context, index) => MovieCard(
+                              movie: movies[index],
+                            ),
+                          );
+                        } else {
+                          return const Center();
+                        }
+                      },
                     ),
                   ),
                 ],
@@ -114,4 +131,5 @@ class _MyHomePageState extends State<MyHomePage> {
       bottomNavigationBar: const NavBar(),
     );
   }
+
 }
