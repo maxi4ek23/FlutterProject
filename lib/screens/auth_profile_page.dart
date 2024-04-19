@@ -6,6 +6,11 @@ import 'package:flutter_test_project/bloc/user_block/user_state.dart';
 import 'package:flutter_test_project/screens/profile_page.dart';
 import 'package:flutter_test_project/screens/user_profile_page.dart';
 
+
+import 'package:flutter_test_project/service/api/api_service.dart';
+import 'package:flutter_test_project/service/authorization/authorization_service.dart';
+
+
 class AuthProfilePage extends StatefulWidget {
   const AuthProfilePage({super.key});
 
@@ -14,7 +19,14 @@ class AuthProfilePage extends StatefulWidget {
 }
 
 class _AuthProfilePageState extends State<AuthProfilePage> {
+
   late UserBloc userBloc;
+
+  final AuthorizationService authorizationService = AuthorizationService();
+  final IApiService apiService = ApiService();
+  User? currUser;
+  User? user;
+
 
   @override
   void initState() {
