@@ -1,4 +1,6 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_test_project/instances/user.dart';
+import 'package:flutter_test_project/service/api/api_service.dart';
 import 'package:flutter_test_project/service/authorization/user_storage_service.dart';
 import 'package:hive_flutter/adapters.dart';
 
@@ -10,10 +12,13 @@ abstract class IAuthorizationService {
   Future<User?> findCurrentUser();
 
   Future<void> logout();
+
+  Future<String?> findCurrentUserEmail();
 }
 
 class AuthorizationService implements IAuthorizationService {
   final IUserStorageService userStorageService = UserStorageService();
+  final IApiService apiService = ApiService();
 
   @override
   Future<String?> register(
@@ -32,10 +37,11 @@ class AuthorizationService implements IAuthorizationService {
       return 'User is already exist';
     }
     final User newUser = User(
-      username: username,
       email: email,
+      username: username,
       password: password,
     );
+    await apiService.registerUser(newUser);
     await userStorageService.saveUser(newUser);
     return null;
   }
@@ -73,7 +79,13 @@ class AuthorizationService implements IAuthorizationService {
     await Hive.initFlutter();
 
     final userBox = await Hive.openBox<User>('users');
-    return userBox.get(currentUserEmail);
+
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      return userBox.get(currentUserEmail);
+    } else {
+      return apiService.getUserByEmail(currentUserEmail);
+    }
   }
 
   @override
@@ -81,5 +93,17 @@ class AuthorizationService implements IAuthorizationService {
     await Hive.initFlutter();
     final stringBox = await Hive.openBox<String>('currentUser');
     await stringBox.delete('currentEmail');
+  }
+
+  @override
+  Future<String?> findCurrentUserEmail() async {
+    await Hive.initFlutter();
+    final stringBox = await Hive.openBox<String>('currentUser');
+    final currentUserEmail = stringBox.get('currentEmail');
+    if (currentUserEmail == null) {
+      return null;
+    } else {
+      return currentUserEmail;
+    }
   }
 }

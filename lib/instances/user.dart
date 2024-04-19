@@ -28,4 +28,18 @@ class User {
 
   @HiveField(3)
   final List<Movie>? watchList;
+
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+        email: json['email'] as String,
+        username: json['username'] as String,
+        password: json['password'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+    'email': email,
+    'username': username,
+    'password': password,
+  };
 }
