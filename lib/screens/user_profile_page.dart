@@ -1,11 +1,13 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_test_project/bloc/user_block/user_block.dart';
+import 'package:flutter_test_project/bloc/user_block/user_event.dart';
+import 'package:flutter_test_project/bloc/user_block/user_state.dart';
 import 'package:flutter_test_project/elements/appbar.dart';
 import 'package:flutter_test_project/elements/navbar.dart';
 import 'package:flutter_test_project/instances/user.dart';
 import 'package:flutter_test_project/screens/edit_profile_page.dart';
-
-import 'package:flutter_test_project/service/authorization/authorization_service.dart';
 
 class UserProfilePage extends StatefulWidget {
   final User user;
@@ -17,8 +19,6 @@ class UserProfilePage extends StatefulWidget {
 }
 
 class _UserProfilePageState extends State<UserProfilePage> {
-  final AuthorizationService authorizationService = AuthorizationService();
-
   @override
   void initState() {
     super.initState();
@@ -34,7 +34,8 @@ class _UserProfilePageState extends State<UserProfilePage> {
           title:
               const Text('No network connection but autologin is successful'),
           content: const Text(
-              'Please check your internet connection and try again.',),
+            'Please check your internet connection and try again.',
+          ),
           actions: [
             TextButton(
               onPressed: () {
@@ -61,8 +62,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
   Future<void> finallyLogout() async {
     final bool logout = await check();
     if (logout == true) {
-      authorizationService.logout();
-      Navigator.pushReplacementNamed(context, '/profile');
+      context.read<UserBloc>().add(Logout());
     }
   }
 
@@ -101,7 +101,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
     return Scaffold(
       appBar: MyAppBar(
         isAbleGoBack: false,
-        appTitle: widget.user.username,
+        appTitle: 'Profile',
         actions: [
           IconButton(
             onPressed: finallyLogout,
@@ -110,7 +110,13 @@ class _UserProfilePageState extends State<UserProfilePage> {
           ),
         ],
       ),
-      body: Container(
+      body: BlocListener<UserBloc, UserState>(
+        listener: (context, state) {
+          if (state is LogoutSuccess) {
+            Navigator.pushReplacementNamed(context, '/profile');
+          }
+        },
+        child: Container(
           padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
           height: size.height,
           child: Center(
@@ -148,7 +154,9 @@ class _UserProfilePageState extends State<UserProfilePage> {
                 ),
               ],
             ),
-          ),),
+          ),
+        ),
+      ),
       bottomNavigationBar: const NavBar(),
     );
   }
