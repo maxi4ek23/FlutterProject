@@ -6,6 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test_project/bloc/movie_bloc/movie_data_bloc.dart';
 import 'package:flutter_test_project/bloc/movie_bloc/movie_data_event.dart';
 import 'package:flutter_test_project/bloc/movie_bloc/movie_data_state.dart';
+import 'package:flutter_test_project/bloc/test/test_bloc.dart';
+import 'package:flutter_test_project/bloc/test/test_state.dart';
 import 'package:flutter_test_project/bloc/user_block/user_block.dart';
 import 'package:flutter_test_project/bloc/user_block/user_event.dart';
 import 'package:flutter_test_project/bloc/user_block/user_state.dart';
@@ -101,31 +103,40 @@ class _MyHomePageState extends State<MyHomePage> {
                         ],
                       ),
                     ),
-                    Container(
-                      height: 270,
-                      child: BlocBuilder<MovieDataBloc, MovieDataState>(
-                        bloc: movieBloc,
-                        builder: (context, state) {
-                          if (state is MovieDataLoading) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-                          if (state is MovieDataLoaded) {
-                            return ListView.separated(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: state.movies.length,
-                              separatorBuilder: (context, _) =>
-                                  const SizedBox(width: 8),
-                              itemBuilder: (context, index) => MovieCard(
-                                movie: state.movies[index],
-                              ),
-                            );
-                          }
+                    BlocBuilder<TestBloc, TestState>(
+                      //bloc: context.read<>(),
+                      builder: (context, state) {
+                        if(state is TestDeleted) {
                           return Container();
-                        },
-                      ),
-                    ),
+                        } else if(state is TestUpdated) {
+                          return Container(
+                            height: 270,
+                            child: BlocBuilder<MovieDataBloc, MovieDataState>(
+                              bloc: movieBloc,
+                              builder: (context, state) {
+                                if (state is MovieDataLoading) {
+                                  return const Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                }
+                                if (state is MovieDataLoaded) {
+                                  return ListView.separated(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: state.movies.length,
+                                    separatorBuilder: (context, _) =>
+                                    const SizedBox(width: 8),
+                                    itemBuilder: (context, index) => MovieCard(
+                                      movie: state.movies[index],
+                                    ),
+                                  );
+                                }
+                                return Container();
+                              },
+                            ),
+                          );
+                        }
+                        return Container();
+                      },)
                   ],
                 ),
               ],

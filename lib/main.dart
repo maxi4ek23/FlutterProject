@@ -11,6 +11,8 @@ import 'package:flutter_test_project/screens/signup_page.dart';
 import 'package:flutter_test_project/service/authorization/authorization_service.dart';
 import 'package:flutter_test_project/service/movie/movie_service.dart';
 
+import 'bloc/test/test_bloc.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -29,6 +31,10 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<MovieDataBloc>(
           create: (context) => MovieDataBloc(movieService),
+        ),
+        BlocProvider<TestBloc>(
+          create: (context) => TestBloc(),
+          lazy: false,
         ),
       ],
       child: MaterialApp(
