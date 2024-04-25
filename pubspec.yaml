@@ -36,6 +36,10 @@ dependencies:
   http: ^1.2.1
 
   flutter_bloc: ^8.1.5
+  mylightplugin:
+    git:
+      url: https://github.com/maxi4ek23/mylightplugin.git
+      ref: plugin
 
 
 

@@ -1,6 +1,7 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_test_project/bloc/test/test_bloc.dart';
 import 'package:flutter_test_project/bloc/user_block/user_block.dart';
 import 'package:flutter_test_project/bloc/user_block/user_event.dart';
 import 'package:flutter_test_project/bloc/user_block/user_state.dart';
@@ -8,6 +9,8 @@ import 'package:flutter_test_project/elements/appbar.dart';
 import 'package:flutter_test_project/elements/navbar.dart';
 import 'package:flutter_test_project/instances/user.dart';
 import 'package:flutter_test_project/screens/edit_profile_page.dart';
+
+import '../bloc/test/test_event.dart';
 
 class UserProfilePage extends StatefulWidget {
   final User user;
@@ -151,6 +154,18 @@ class _UserProfilePageState extends State<UserProfilePage> {
                     'Edit',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    context.read<TestBloc>().add(DeleteMovies());
+                  },
+                  child: const Text('Delete'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    context.read<TestBloc>().add(UpdateMovies());
+                  },
+                  child: const Text('Update'),
                 ),
               ],
             ),
